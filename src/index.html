@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎉Happy Birthday!!</title>
+    <!-- External CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Stars & Background Layers -->
+    <canvas id="starfield"></canvas>
+    <div class="nebula nebula-1"></div>
+    <div class="nebula nebula-2"></div>
+    <div class="nebula nebula-3"></div>
+
+    <!-- Confetti Layer -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- Page Transition Overlay -->
+    <div class="page-transition" id="transition">
+        <div class="transition-text dots"><span>·</span><span>·</span><span>·</span></div>
+    </div>
+
+    <!-- ==================== PAGE 1: INTRO ==================== -->
+    <div class="page active" id="page-intro">
+        <p class="birthday-sub" style="animation-delay:0s">today is a special day</p>
+        <h1 class="birthday-title">Happy Birthday!</h1>
+        <p class="birthday-name">dear Asriel💝</p>
+
+        <div class="letter-wrapper" id="letter-btn" onclick="goToCaptcha()">
+            <span class="letter-hint">open your letter</span>
+            <div class="envelope">
+                <div class="envelope-flap"></div>
+                <div class="envelope-bottom">
+                    <div class="envelope-lines">
+                        <div class="envelope-line"></div>
+                        <div class="envelope-line"></div>
+                    </div>
+                </div>
+                <div class="heart-stamp">
+                    <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="14" cy="14" r="13" fill="rgba(244,114,182,0.15)" stroke="rgba(244,114,182,0.5)" stroke-width="1"/>
+                        <path d="M14 20s-7-5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 21 10c0 5-7 10-7 10z" fill="#f472b6"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== PAGE 2: CAPTCHA ==================== -->
+    <div class="page" id="page-captcha">
+        <div class="captcha-header">
+            <h1>Are you a fox? 🦊</h1>
+            <p>Complete the verification</p>
+        </div>
+
+        <div class="captcha-progress">
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progress-fill"></div>
+            </div>
+            <div class="progress-label" id="progress-label">Step 0 of 7</div>
+        </div>
+
+        <div id="captcha-container"></div>
+    </div>
+
+    <!-- ==================== PAGE 3: REVEAL ==================== -->
+    <div class="page" id="page-reveal">
+        <h1 class="reveal-title">You did it!</h1>
+        <p class="reveal-sub" style="opacity:1">A drawing, made with love, just for you :3</p>
+        <div class="drawing-frame">
+            <div class="drawing-placeholder">
+                <div class="fox-big">🦊</div>
+                <span style="font-size:0.85rem">Your drawing goes here</span>
+                <span style="font-size:0.75rem; opacity:0.6">(replace the fox image with your drawing)</span>
+            </div>
+        </div>
+        <a href="#" class="btn-download" id="download-btn" onclick="downloadDrawing(event)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download
+        </a>
+    </div>
+
+    <!-- External JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>

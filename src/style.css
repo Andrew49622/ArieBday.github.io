@@ -1,0 +1,533 @@
+/* ==========================================================================
+   1. IMPORTS & VARIABLES
+   ========================================================================== */
+   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+
+   :root {
+     --bg: #0d0b1a;
+     --purple-deep: #1a1235;
+     --purple: #6b3fa0;
+     --purple-light: #c084fc;
+     --pink: #f472b6;
+     --pink-soft: #fbcfe8;
+     --blue: #7dd3fc;
+     --blue-soft: #bae6fd;
+     --lavender: #a78bfa;
+     --cloud: #e9d5ff;
+     --star: #fde68a;
+     --text: #f3e8ff;
+     --text-muted: #a78bfa;
+     --success: #86efac;
+   }
+   
+   /* ==========================================================================
+      2. GLOBAL RESET & BASE STYLES
+      ========================================================================== */
+   * {
+     margin: 0;
+     padding: 0;
+     box-sizing: border-box;
+   }
+   
+   body {
+     background: var(--bg);
+     font-family: 'DM Sans', sans-serif;
+     color: var(--text);
+     overflow-x: hidden;
+     min-height: 100vh;
+   }
+   
+   /* ==========================================================================
+      3. BACKGROUND ELEMENTS (STARS & NEBULA)
+      ========================================================================== */
+   #starfield {
+     position: fixed;
+     top: 0;
+     left: 0;
+     width: 100%;
+     height: 100%;
+     pointer-events: none;
+     z-index: 0;
+   }
+   
+   .nebula {
+     position: fixed;
+     border-radius: 50%;
+     filter: blur(80px);
+     pointer-events: none;
+     z-index: 0;
+     opacity: 0.18;
+   }
+   
+   .nebula-1 {
+     width: 600px;
+     height: 600px;
+     background: radial-gradient(circle, var(--purple), transparent);
+     top: -150px;
+     left: -100px;
+   }
+   
+   .nebula-2 {
+     width: 500px;
+     height: 500px;
+     background: radial-gradient(circle, var(--pink), transparent);
+     bottom: -100px;
+     right: -80px;
+   }
+   
+   .nebula-3 {
+     width: 400px;
+     height: 400px;
+     background: radial-gradient(circle, var(--blue), transparent);
+     top: 40%;
+     left: 50%;
+     transform: translate(-50%, -50%);
+     opacity: 0.12;
+   }
+   
+   /* ==========================================================================
+      4. PAGE ARCHITECTURE
+      ========================================================================== */
+   .page {
+     display: none;
+     position: relative;
+     z-index: 1;
+     min-height: 100vh;
+   }
+   
+   .page.active {
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     justify-content: center;
+   }
+   
+   /* ==========================================================================
+      5. PAGE 1: INTRO STYLES
+      ========================================================================== */
+   #page-intro {
+     text-align: center;
+     padding: 2rem;
+   }
+   
+   .birthday-title {
+     font-family: 'Playfair Display', serif;
+     font-size: clamp(2.5rem, 8vw, 5rem);
+     font-weight: 700;
+     background: linear-gradient(135deg, var(--purple-light), var(--pink), var(--blue));
+     -webkit-background-clip: text;
+     -webkit-text-fill-color: transparent;
+     background-clip: text;
+     animation: fadeSlideDown 1.2s ease forwards;
+     opacity: 0;
+     line-height: 1.1;
+     margin-bottom: 1rem;
+   }
+   
+   .birthday-sub {
+     font-size: clamp(1rem, 3vw, 1.4rem);
+     color: var(--text-muted);
+     font-weight: 300;
+     animation: fadeSlideDown 1.2s ease 0.3s forwards;
+     opacity: 0;
+     margin-bottom: 0.5rem;
+   }
+   
+   .birthday-name {
+     font-family: 'Playfair Display', serif;
+     font-style: italic;
+     font-size: clamp(1.4rem, 4vw, 2.2rem);
+     color: var(--pink-soft);
+     animation: fadeSlideDown 1.2s ease 0.5s forwards;
+     opacity: 0;
+     margin-bottom: 3rem;
+   }
+   
+   /* ENVELOPE COMPONENT */
+   .letter-wrapper {
+     animation: fadeSlideUp 1.2s ease 1s forwards;
+     opacity: 0;
+     cursor: pointer;
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     gap: 0.8rem;
+     margin-top: 1rem;
+   }
+   
+   .letter-hint {
+     font-size: 0.9rem;
+     color: var(--text-muted);
+     letter-spacing: 0.1em;
+     text-transform: uppercase;
+     animation: pulse-hint 2s ease-in-out infinite;
+   }
+   
+   .envelope {
+     width: 120px;
+     height: 90px;
+     background: linear-gradient(135deg, #2d1b4e, #1e1040);
+     border: 1.5px solid var(--lavender);
+     border-radius: 8px;
+     position: relative;
+     transition: transform 0.4s cubic-bezier(.34, 1.56, .64, 1), box-shadow 0.4s;
+     box-shadow: 0 0 30px rgba(167, 139, 250, 0.2);
+   }
+   
+   .envelope:hover {
+     transform: translateY(-8px) scale(1.05);
+     box-shadow: 0 0 50px rgba(244, 114, 182, 0.4), 0 20px 40px rgba(0, 0, 0, 0.4);
+   }
+   
+   .envelope-flap {
+     position: absolute;
+     top: 0;
+     left: 0;
+     right: 0;
+     bottom: 50%;
+     border-left: 60px solid transparent;
+     border-right: 60px solid transparent;
+     border-top: 45px solid #4a2070;
+     border-radius: 8px 8px 0 0;
+     transition: transform 0.4s;
+     transform-origin: top center;
+   }
+   
+   .envelope:hover .envelope-flap {
+     transform: rotateX(30deg);
+   }
+   
+   .heart-stamp {
+     position: absolute;
+     bottom: 10px;
+     right: 12px;
+     width: 28px;
+     height: 28px;
+     z-index: 2;
+   }
+   
+   .envelope-bottom {
+     position: absolute;
+     bottom: 0;
+     left: 0;
+     right: 0;
+     height: 50%;
+     display: flex;
+     align-items: flex-end;
+     justify-content: center;
+     padding-bottom: 4px;
+   }
+   
+   .envelope-line {
+     width: 40px;
+     height: 1.5px;
+     background: var(--lavender);
+     border-radius: 2px;
+     margin-bottom: 20px;
+   }
+   
+   /* ==========================================================================
+      6. PAGE 2: CAPTCHA STYLES
+      ========================================================================== */
+   #page-captcha {
+     padding-top: 4rem;
+     padding-bottom: 4rem;
+   }
+   
+   .captcha-header {
+     text-align: center;
+     margin-bottom: 3rem;
+     animation: fadeSlideDown 0.8s ease forwards;
+   }
+   
+   .captcha-header h1 {
+     font-family: 'Playfair Display', serif;
+     font-size: clamp(1.8rem, 5vw, 3rem);
+     background: linear-gradient(135deg, var(--purple-light), var(--pink));
+     -webkit-background-clip: text;
+     -webkit-text-fill-color: transparent;
+     background-clip: text;
+   }
+   
+   /* PROGRESS BAR */
+   .captcha-progress {
+     width: min(500px, 90vw);
+     margin-bottom: 2rem;
+   }
+   
+   .progress-bar-bg {
+     background: rgba(167, 139, 250, 0.15);
+     border: 1px solid rgba(167, 139, 250, 0.2);
+     border-radius: 100px;
+     height: 8px;
+     overflow: hidden;
+   }
+   
+   .progress-bar-fill {
+     height: 100%;
+     background: linear-gradient(90deg, var(--purple), var(--pink));
+     transition: width 0.5s ease;
+     width: 0%;
+   }
+   
+   /* CAPTCHA CARD */
+   .captcha-card {
+     background: rgba(26, 18, 53, 0.7);
+     border: 1px solid rgba(167, 139, 250, 0.25);
+     border-radius: 20px;
+     padding: 2rem;
+     width: min(520px, 90vw);
+     backdrop-filter: blur(20px);
+     margin-bottom: 2rem;
+     animation: cardIn 0.6s cubic-bezier(.34, 1.56, .64, 1) forwards;
+   }
+   
+   /* GRID SELECT */
+   .img-grid {
+     display: grid;
+     grid-template-columns: repeat(4, 1fr);
+     gap: 6px;
+     margin-bottom: 1.2rem;
+   }
+   
+   .img-cell {
+     aspect-ratio: 1;
+     background: rgba(107, 63, 160, 0.2);
+     border-radius: 8px;
+     cursor: pointer;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     font-size: 1.8rem;
+     transition: all 0.2s;
+     position: relative;
+   }
+   
+   .img-cell.selected {
+     border: 2px solid var(--pink);
+     background: rgba(244, 114, 182, 0.2);
+   }
+   
+   /* TEXT INPUT */
+   .captcha-text-input {
+     width: 100%;
+     background: rgba(13, 11, 26, 0.6);
+     border: 1px solid rgba(167, 139, 250, 0.3);
+     border-radius: 10px;
+     padding: 0.7rem 1rem;
+     color: var(--text);
+     font-family: inherit;
+     margin-bottom: 1rem;
+   }
+   
+   /* SLIDER */
+   .fox-slider {
+     width: 100%;
+     -webkit-appearance: none;
+     appearance: none;
+     height: 40px;
+     background: rgba(107, 63, 160, 0.2);
+     border-radius: 100px;
+     outline: none;
+   }
+   
+   .fox-slider::-webkit-slider-thumb {
+     -webkit-appearance: none;
+     width: 40px;
+     height: 36px;
+     background: linear-gradient(135deg, var(--purple), var(--pink));
+     border-radius: 100px;
+     cursor: pointer;
+   }
+   
+   /* SEQUENCE GRID */
+   .sequence-grid {
+     display: grid;
+     grid-template-columns: repeat(5, 1fr);
+     gap: 8px;
+     margin-bottom: 1.2rem;
+   }
+   
+   .seq-cell {
+     aspect-ratio: 1;
+     background: rgba(107, 63, 160, 0.15);
+     border: 1.5px solid rgba(167, 139, 250, 0.2);
+     border-radius: 10px;
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     justify-content: center;
+     cursor: pointer;
+     position: relative;
+   }
+   
+   .seq-cell.ordered {
+     border-color: var(--lavender);
+     background: rgba(167, 139, 250, 0.2);
+   }
+   
+   .order-num {
+     position: absolute;
+     top: 3px;
+     left: 6px;
+     font-size: 0.65rem;
+     color: var(--lavender);
+   }
+   
+   /* WORD CHIPS */
+   .word-chip {
+     padding: 6px 14px;
+     border-radius: 100px;
+     border: 1.5px solid rgba(167, 139, 250, 0.25);
+     background: rgba(107, 63, 160, 0.15);
+     cursor: pointer;
+     font-size: 0.85rem;
+     display: inline-block;
+     margin: 4px;
+   }
+   
+   .word-chip.selected {
+     background: rgba(244, 114, 182, 0.2);
+     border-color: var(--pink);
+     color: var(--pink-soft);
+   }
+   
+   /* BUTTONS & MESSAGES */
+   .btn-verify {
+     width: 100%;
+     padding: 0.9rem;
+     background: linear-gradient(135deg, var(--purple), var(--pink));
+     border: none;
+     border-radius: 12px;
+     color: white;
+     cursor: pointer;
+     font-weight: 500;
+   }
+   
+   .error-msg {
+     color: #fca5a5;
+     font-size: 0.85rem;
+     margin-top: 0.5rem;
+     display: none;
+   }
+   
+   .error-msg.show {
+     display: block;
+   }
+   
+   /* ==========================================================================
+      7. PAGE 3: REVEAL STYLES
+      ========================================================================== */
+   .drawing-frame {
+     background: rgba(26, 18, 53, 0.6);
+     border: 1.5px solid rgba(167, 139, 250, 0.3);
+     border-radius: 24px;
+     padding: 1.5rem;
+     width: min(480px, 90vw);
+     backdrop-filter: blur(20px);
+     opacity: 0;
+     transform: scale(0.85);
+     animation: revealFrame 1.2s cubic-bezier(.34, 1.56, .64, 1) 0.4s forwards;
+   }
+   
+   .drawing-placeholder {
+     width: 100%;
+     aspect-ratio: 4/3;
+     background: rgba(107, 63, 160, 0.1);
+     border: 2px dashed rgba(167, 139, 250, 0.2);
+     border-radius: 14px;
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     justify-content: center;
+     color: var(--text-muted);
+   }
+   
+   .btn-download {
+     display: inline-flex;
+     align-items: center;
+     gap: 10px;
+     padding: 1rem 2.5rem;
+     background: linear-gradient(135deg, #6b3fa0, #f472b6);
+     border-radius: 100px;
+     color: white;
+     text-decoration: none;
+     margin-top: 2rem;
+     opacity: 0;
+     animation: fadeSlideUp 1s ease 0.8s forwards;
+   }
+   
+   /* ==========================================================================
+      8. TRANSITION OVERLAY & UI FEEDBACK
+      ========================================================================== */
+   .page-transition {
+     position: fixed;
+     top: 0;
+     left: 0;
+     width: 100%;
+     height: 100%;
+     background: var(--bg);
+     z-index: 500;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     pointer-events: none;
+     opacity: 0;
+     transition: opacity 0.4s;
+   }
+   
+   .page-transition.visible {
+     opacity: 1;
+     pointer-events: all;
+   }
+   
+   .dots span {
+     display: inline-block;
+     animation: dotBounce 1.2s ease-in-out infinite;
+     color: var(--pink);
+     font-size: 3rem;
+   }
+   
+   .fox-paw-trail {
+     position: fixed;
+     pointer-events: none;
+     z-index: 0;
+     animation: pawFade 2s ease forwards;
+   }
+   
+   /* ==========================================================================
+      9. KEYFRAMES
+      ========================================================================== */
+   @keyframes fadeSlideDown {
+     from { opacity: 0; transform: translateY(-20px); }
+     to { opacity: 1; transform: translateY(0); }
+   }
+   
+   @keyframes fadeSlideUp {
+     from { opacity: 0; transform: translateY(30px); }
+     to { opacity: 1; transform: translateY(0); }
+   }
+   
+   @keyframes cardIn {
+     from { opacity: 0; transform: scale(0.9) translateY(20px); }
+     to { opacity: 1; transform: scale(1) translateY(0); }
+   }
+   
+   @keyframes revealFrame {
+     to { opacity: 1; transform: scale(1); }
+   }
+   
+   @keyframes pulse-hint {
+     0%, 100% { opacity: 0.5; }
+     50% { opacity: 1; }
+   }
+   
+   @keyframes dotBounce {
+     0%, 100% { transform: translateY(0); }
+     50% { transform: translateY(-10px); }
+   }
+   
+   @keyframes pawFade {
+     0% { opacity: 0.7; transform: scale(1); }
+     100% { opacity: 0; transform: scale(0.5) translateY(-20px); }
+   }
