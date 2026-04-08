@@ -46,6 +46,18 @@
   let confettiPieces = [];
   let confettiActive = false;
   const COLORS = ['#c084fc','#f472b6','#7dd3fc','#fde68a','#86efac'];
+
+  function resizeConfettiCanvas() {
+    const dpr = window.devicePixelRatio || 1;
+    confettiCanvas.style.width = `${window.innerWidth}px`;
+    confettiCanvas.style.height = `${window.innerHeight}px`;
+    confettiCanvas.width = Math.floor(window.innerWidth * dpr);
+    confettiCanvas.height = Math.floor(window.innerHeight * dpr);
+    cCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  window.addEventListener('resize', resizeConfettiCanvas);
+  resizeConfettiCanvas();
   
   function spawnConfetti(count) {
     for (let i = 0; i < count; i++) {
@@ -67,7 +79,7 @@
   }
   
   function drawConfetti() {
-    cCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+    cCtx.clearRect(0, 0, window.innerWidth, window.innerHeight);
     confettiPieces.forEach((p, i) => {
       p.y += p.vy;
       p.x += Math.sin(p.wave) * 1.5;
@@ -195,7 +207,7 @@
       content += `<input type="range" min="0" max="100" value="0" class="fox-slider" oninput="stepState[${idx}].value = this.value">`;
     }
   
-    content += `<div class="error-msg" id="err-${idx}">Try again, little fox! 🦊</div>`;
+    content += `<div class="error-msg" id="err-${idx}">Try again, silly little fox!</div>`;
     content += `<button class="btn-verify" onclick="verifyStep(${idx})">Verify →</button>`;
     
     card.innerHTML = content;
@@ -289,8 +301,13 @@
   }
   
   window.downloadDrawing = (e) => {
-    e.preventDefault();
     const btn = document.getElementById('download-btn');
+    const img = document.querySelector('.drawing-placeholder img');
+    const src = img?.getAttribute('src');
+    if (src) {
+      btn.href = src;
+      btn.download = src.split('/').pop();
+    }
     btn.textContent = '🦊 Downloading...';
     setTimeout(() => {
       btn.textContent = '✓ Downloaded!';
