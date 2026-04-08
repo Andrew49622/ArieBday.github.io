@@ -136,7 +136,7 @@
       type: 'sequence',
       title: 'Order the fox life cycle',
       items: [{e:'🦊',l:'Adult',o:4},{e:'🌰',l:'Den',o:1},{e:'🐾',l:'Hunting',o:3},{e:'🍼',l:'Kit',o:2},{e:'🪦',l:'Ded :c',o:5}],
-      validate: (clicks) => clicks.join(',') === '3,0,2,1,4'
+      validate: (clicks) => clicks.join(',') === '1,3,2,0,4'
     },
     {
       type: 'word-select',
