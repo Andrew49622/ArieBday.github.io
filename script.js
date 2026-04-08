@@ -164,8 +164,8 @@
     {
       type: 'grid-select',
       title: 'Select all fox habitats',
-      gridItems: [{e:'🌲',fox:true},{e:'🏙️',fox:true},{e:'🌊',fox:false},{e:'🏔️',fox:true},{e:'🌿',fox:true},{e:'🐚',fox:false},{e:'🍂',fox:true},{e:'🌺',fox:false},{e:'☃️❄️',fox:true},{e:'🌋',fox:false},{e:'🌾',fox:true},{e:'🪸',fox:false},{e:'🦊',fox:true},{e:'🌵',fox:false},{e:'🌙',fox:true},{e:'🌊',fox:false}],
-      validate: (sel) => [0,1,3,4,6,8,10,12,14].every(i => sel.includes(i)) && sel.length === 9
+      gridItems: [{e:'🌲',fox:true},{e:'🏙️',fox:true},{e:'🌊',fox:false},{e:'🏔️',fox:true},{e:'☢️',fox:false},{e:'🐚',fox:false},{e:'🍂',fox:true},{e:'🪐',fox:false},{e:'☃️❄️',fox:true},{e:'🌋',fox:false},{e:'🌾',fox:true},{e:'🪸',fox:false},{e:'🏜️',fox:true},{e:'🤹',fox:false},{e:'🌙',fox:true},{e:'🌊',fox:false}],
+      validate: (sel) => [0,1,3,6,8,10,12,14].every(i => sel.includes(i)) && sel.length === 8
     },
     {
       type: 'text-input',
