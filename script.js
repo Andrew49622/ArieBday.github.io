@@ -87,7 +87,7 @@
   
   function startConfetti() {
     confettiActive = true;
-    const burst = () => { if(confettiActive) { spawnConfetti(20); setTimeout(burst, 400); }};
+    const burst = () => { if(confettiActive) { spawnConfetti(20); setTimeout(burst, 250); }};
     burst();
     setTimeout(() => confettiActive = false, 5000);
   }
@@ -269,6 +269,10 @@
       spawnPaws();
     } else {
       document.getElementById(`err-${idx}`).classList.add('show');
+
+      // Safety: if the transition overlay ever gets stuck visible, it will block all clicks.
+      const tr = document.getElementById('transition');
+      if (tr) tr.classList.remove('visible');
     }
   };
   
